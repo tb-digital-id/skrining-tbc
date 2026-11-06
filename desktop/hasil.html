@@ -194,7 +194,7 @@
                             <h3>PEMERINTAH KOTA SAMARINDA • DINAS KESEHATAN</h3>
                             <h2>PUSKESMAS LOK BAHU</h2>
                             <p>Jl. Ir. H. Nusyirwan Ismail, M.Si. (Ring Road 2) RT. 15, Kel. Lok Bahu, Kec. Sungai Kunjang, Samarinda 75129</p>
-                            <p>Layanan TCM Dahak: Senin – Sabtu, 08.00 – 14.00 WITA • WhatsApp Pelayanan: +62 857-5355-1401</p>
+                            <p>Layanan TCM Dahak: Senin – Sabtu, 08.00 – 14.00 WITA<span x-show="hasil.terduga"> • WhatsApp Pelayanan: +62 857-5355-1401</span></p>
                         </div>
                     </div>
                     <div class="print-doc-title">
@@ -508,8 +508,8 @@
                 <!-- ---------------------------------------------------------- -->
                 <aside class="hasil-sidebar">
 
-                    <!-- CARD PUSKESMAS RUJUKAN -->
-                    <div class="puskesmas-card">
+                    <!-- CARD PUSKESMAS RUJUKAN (HANYA MUNCUL JIKA TERDUGA TB) -->
+                    <div class="puskesmas-card" x-show="hasil.terduga">
                         <div class="pk-header">
                             <img src="../assets/img/logopuskesmas.png" alt="Logo Puskesmas">
                             <div>
@@ -555,6 +555,22 @@
                                 </p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- CARD EDUKASI KESEHATAN PARU (MUNCUL JIKA BUKAN TERDUGA TB) -->
+                    <div class="card card-pad bg-teal-50/70 border-teal-200" x-show="!hasil.terduga">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-teal-900 text-sm">Status Paru Aman</h3>
+                                <p class="text-xs text-teal-700">Tidak ada indikasi perlunya tes laboratorium saat ini.</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Berdasarkan penapisan mandiri, Anda tidak tergolong Terduga TB. Tetap terapkan Perilaku Hidup Bersih dan Sehat (PHBS), konsumsi makanan bergizi, pastikan ventilasi rumah baik, dan lakukan pemeriksaan kembali apabila di masa mendatang mengalami batuk lebih dari 2 minggu.
+                        </p>
                     </div>
 
                     <!-- CARD AKSI TAMBAHAN -->

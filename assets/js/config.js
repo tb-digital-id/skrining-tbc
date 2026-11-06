@@ -63,6 +63,23 @@ window.PUSKESMAS_CONFIG = {
             return { sukses: false, pesan: "Endpoint GAS belum dikonfigurasi." };
         }
 
+        // ============================================================
+        //  Helper: konversi boolean null-safe ke label Ya/Tidak
+        // ============================================================
+        const yaAtauTidak = (val) => val === true ? "Ya" : val === false ? "Tidak" : "-";
+
+        // ============================================================
+        //  Gejala Klinis — Dewasa (3 pertanyaan gejala tambahan + status batuk)
+        // ============================================================
+        const isAnak = dataPasien.kategoriUsia === "anak";
+
+        // Label status batuk (dewasa)
+        const labelStatusBatuk = {
+            tidak_batuk:  "Tidak Batuk",
+            batuk_kurang2: "Batuk < 2 Minggu",
+            batuk_lebih2:  "Batuk ≥ 2 Minggu",
+        }[dataPasien.statusBatuk] || "-";
+
         const payload = {
             waktuSkrining: new Date().toLocaleString("id-ID"),
             nama: dataPasien.nama || "",
@@ -92,6 +109,26 @@ window.PUSKESMAS_CONFIG = {
             hasilDiagnosis: hasil.label || "",
             statusTerduga: hasil.terduga ? "TERDUGA TB" : "BUKAN TERDUGA TB",
             alasanGejala: (hasil.alasan || []).join("; "),
+
+            // ============================================================
+            //  Gejala Klinis — BARU (sebelumnya tidak dikirim ke Sheets)
+            //  Kolom baru di spreadsheet diperlukan mulai baris ini.
+            //  Data lama (sebelum revisi) akan kosong di kolom-kolom ini.
+            // ============================================================
+
+            // --- Jalur Dewasa (≥ 15 tahun) ---
+            // Diisi hanya jika responden dewasa; "-" jika anak / tidak relevan
+            gejalaStatusBatuk:    isAnak ? "-" : labelStatusBatuk,
+            gejalaDemamDewasa:    isAnak ? "-" : yaAtauTidak(dataPasien.demamDewasa),
+            gejalaBBTurunDewasa:  isAnak ? "-" : yaAtauTidak(dataPasien.bbTurunDewasa),
+            gejalaKeringatMalam:  isAnak ? "-" : yaAtauTidak(dataPasien.keringatMalam),
+
+            // --- Jalur Anak (< 15 tahun) ---
+            // Diisi hanya jika responden anak; "-" jika dewasa / tidak relevan
+            gejalaBatukAnak:   isAnak ? yaAtauTidak(dataPasien.batukAnak)   : "-",
+            gejalaDemamAnak:   isAnak ? yaAtauTidak(dataPasien.demamAnak)   : "-",
+            gejalaBBTurunAnak: isAnak ? yaAtauTidak(dataPasien.bbTurunAnak) : "-",
+            gejalaLesuAnak:    isAnak ? yaAtauTidak(dataPasien.lesuAnak)    : "-",
         };
 
         try {
