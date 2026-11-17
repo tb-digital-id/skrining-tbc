@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Guard: redirect mobile device ke tampilan mobile -->
+    <script>
+        (function(){
+            var ua = navigator.userAgent || "";
+            var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua);
+            var isNarrow = window.innerWidth < 1024;
+            if (isMobileUA || isNarrow) {
+                var base = window.location.href.replace(/desktop\/[^/]*$/, "");
+                window.location.replace(base + "mobile/index.html");
+            }
+        })();
+    </script>
     <title>Formulir Skrining TB Digital — Desktop</title>
     <meta name="description" content="Formulir skrining mandiri TB digital Puskesmas Lok Bahu tampilan desktop interaktif." />
     <!-- Tailwind CSS CDN -->
